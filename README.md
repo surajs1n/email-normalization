@@ -42,7 +42,7 @@ Here is the class-level diagram of V1 version.
 2. The library utilizes central EmailHandlerFactory that has access to all ordered-list of EmailHandlers.
 3. The `EmailValidator` class carries all the checks to validate a given input.
 
-![Email Normalization Class-Level Diagram](\src\main\resources\Email Normalization.png)
+![Email Normalization Class-Level Diagram](\src\main\resources\EmailNormalization.png)
 
 ### How to contribute?
 Since we wrote the initial version of the project. There a many areas where we are expecting contribution.
