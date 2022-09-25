@@ -10,6 +10,13 @@ EmailNormalizer.normalize("surajsn@gmail.com") ;      will return => surajsn@gma
 EmailNormalizer.normalize("SURAJSN@gmail.com") ;      will return => surajsn@gmail.com
 ```
 
+### Table of Content
+1. Motivation
+   1. In Scope
+   2. Out of Scope
+2. Class-Level Diagram
+3. How to contribute?
+
 ### Motivation
 
 Consider two security vulnerability scenarios:
