@@ -11,11 +11,22 @@ EmailNormalizer.normalize("SURAJSN@gmail.com") ;      will return => surajsn@gma
 ```
 
 ### Table of Content
-1. Motivation
+1. Usage
+2. Motivation
    1. In Scope
    2. Out of Scope
-2. Class-Level Diagram
-3. How to contribute?
+3. Class-Level Diagram
+4. How to contribute?
+
+### Usage
+
+```xml
+    <dependency>
+        <groupId>io.github.surajs1n</groupId>
+        <artifactId>email-normalization</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+```
 
 ### Motivation
 
