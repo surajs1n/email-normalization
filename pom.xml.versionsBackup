@@ -6,7 +6,7 @@
 
     <groupId>io.github.surajs1n</groupId>
     <artifactId>email-normalization</artifactId>
-    <version>1.0.0</version>
+    <version>1.0-SNAPSHOT</version>
 
     <name>Email Normalization</name>
     <description>This is a light-weighted java library (V1.0 version) meant to validate and normalize a given morphed EmailId.</description>
@@ -87,7 +87,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.9</version>
+                        <version>1.6.7</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
