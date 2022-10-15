@@ -43,11 +43,11 @@ Now, let us see the use cases that are covered in this version and what all are 
 #### In Scope
 1. The library is capable of normalizing the EmailIds belonging to `[GMail, Outlook, AOL, Yahoo, ICloud, Zoho, Yandex, Tutanota]`
 2. The library normalizes the Emails of GMail using below SOP:
-   1. Covert all the characters to lower-case.
+   1. Convert all the characters to lower-case.
    2. Remove all the `.` from the email-prefix(string before `@`). E.g:- for `surajs.n@googlemail.com`, `surajs.n` is the email-prefix string.
    3. Truncate all the email-prefix characters appearing after `+` (if that exist in the email).
 3. The library normalizes all the other EmailIds from other Email-Providers using the below SOP:
-   1. covert all the characters to lower-case.
+   1. Convert all the characters to lower-case.
 
 #### Out of Scope
 1. The library doesn't validate the correctness of email-provider string. E.g:- for `surajsn@googlemail.com`, `googlemail` is the email-provider string.

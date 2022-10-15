@@ -5,15 +5,20 @@ import exception.EmailNormalizationExceptionType;
 import factory.EmailHandlerFactory;
 import factory.EmailHandlerFactoryImpl;
 import model.Email;
-import util.EmailUtils;
-import util.EmailValidator;
+import org.apache.commons.validator.routines.EmailValidator;
 
 public class EmailNormalizer {
 
     private static final EmailHandlerFactory emailHandlerFactory = new EmailHandlerFactoryImpl();
 
     public static String normalize(final String inputEmail) throws EmailNormalizationException {
-        EmailValidator.validateEmail(inputEmail);
+        boolean isEmailValid = EmailValidator.getInstance().isValid(inputEmail);
+        if (!isEmailValid) {
+            throw new EmailNormalizationException(
+                    EmailNormalizationExceptionType.INVALID_EMAIL,
+                    "[EmailNormalizer] Email is Invalid"
+            );
+        }
 
         final String [] splitEmails = inputEmail.trim().split("@");
         final String [] splitEmailSuffix = splitEmails[1].split("\\.", 2);
