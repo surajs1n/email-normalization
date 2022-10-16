@@ -1,6 +1,7 @@
 package normalize;
 
 import exception.EmailNormalizationException;
+import exception.EmailNormalizationExceptionType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,48 @@ class EmailNormalizerTest {
     @AfterEach
     void tearDown() {
     }
+
+    ///////// VALIDATE E-MAIL IDS /////
+
+    @Test
+    public void GIVEN_nullEmailId_WHEN_NormalizingEmail_THEN_ThrowException() {
+        EmailNormalizationException exception = assertThrows(EmailNormalizationException.class, () -> EmailNormalizer.normalize(null));
+        assertEquals(exception.getExceptionType(), EmailNormalizationExceptionType.INVALID_EMAIL);
+    }
+
+    @Test
+    public void GIVEN_emptyEmailId_WHEN_NormalizingEmail_THEN_ThrowException() {
+        EmailNormalizationException exception = assertThrows(EmailNormalizationException.class, () -> EmailNormalizer.normalize(""));
+        assertEquals(exception.getExceptionType(), EmailNormalizationExceptionType.INVALID_EMAIL);
+    }
+
+    @Test
+    public void GIVEN_EmailIdHasSpaceInBetween_WHEN_NormalizingEmail_THEN_ThrowException() {
+        EmailNormalizationException exception = assertThrows(EmailNormalizationException.class, () -> EmailNormalizer.normalize(" suraj .sn@gmail.com"));
+        assertEquals(exception.getExceptionType(), EmailNormalizationExceptionType.INVALID_EMAIL);
+    }
+
+    @Test
+    public void GIVEN_EmailIdHasMoreSpecialSymbol_WHEN_NormalizingEmail_THEN_ThrowException() {
+        EmailNormalizationException exception = assertThrows(EmailNormalizationException.class, () -> EmailNormalizer.normalize(" suraj@sn@gmail.com"));
+        assertEquals(exception.getExceptionType(), EmailNormalizationExceptionType.INVALID_EMAIL);
+
+        exception = assertThrows(EmailNormalizationException.class, () -> EmailNormalizer.normalize(" suraj"));
+        assertEquals(exception.getExceptionType(), EmailNormalizationExceptionType.INVALID_EMAIL);
+    }
+
+    @Test
+    public void GIVEN_EmailIdHasEitherEmptyPrefixOrSuffix_WHEN_NormalizingEmail_THEN_ThrowException() {
+        EmailNormalizationException exception = assertThrows(EmailNormalizationException.class, () -> EmailNormalizer.normalize(" @gmail.com"));
+        assertEquals(exception.getExceptionType(), EmailNormalizationExceptionType.INVALID_EMAIL);
+
+        exception = assertThrows(EmailNormalizationException.class, () -> EmailNormalizer.normalize(" suraj@"));
+        assertEquals(exception.getExceptionType(), EmailNormalizationExceptionType.INVALID_EMAIL);
+
+        exception = assertThrows(EmailNormalizationException.class, () -> EmailNormalizer.normalize(" suraj@gmail"));
+        assertEquals(exception.getExceptionType(), EmailNormalizationExceptionType.INVALID_EMAIL);
+    }
+
 
     ///////// TEST GMAIL IDs ////////
     @Test

@@ -37,6 +37,7 @@
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
         <lombok.version>1.18.24</lombok.version>
+        <apache.common.validator>1.7</apache.common.validator>
         <junit5.version>5.9.0</junit5.version>
     </properties>
 
@@ -48,6 +49,14 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>${apache.common.validator}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
