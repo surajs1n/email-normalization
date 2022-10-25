@@ -1,0 +1,25 @@
+# Email configuration file used by the library
+
+emailProviderTypeListMap:
+  GMAIL:
+    - handlerType: TO_LOWERCASE
+    - handlerType: REMOVE_CHARACTERS
+      patternOfCharacterToBeRemoved: "[.]"
+    - handlerType: TRIM_SUFFIX
+      trimRegexExpression: "\\+"
+  OUTLOOK:
+    - handlerType: TO_LOWERCASE
+  AOL:
+    - handlerType: TO_LOWERCASE
+  YAHOO:
+    - handlerType: TO_LOWERCASE
+  ICLOUD:
+    - handlerType: TO_LOWERCASE
+  ZOHO:
+    - handlerType: TO_LOWERCASE
+  YANDEX:
+    - handlerType: TO_LOWERCASE
+  TUTANOTA:
+    - handlerType: TO_LOWERCASE
+  OTHER:
+    - handlerType: TO_LOWERCASE
