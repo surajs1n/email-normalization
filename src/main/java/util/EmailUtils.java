@@ -8,15 +8,17 @@ import model.enums.EmailProviderType;
 
 import java.util.*;
 
+/**
+ * Util class of Email-Normalization library.
+ */
 public final class EmailUtils {
 
+    /**
+     * Private default constructor to avoid creating it object.
+     */
     private EmailUtils() {
 
     }
-
-    private static final ToLowerEmailHandler toLowerEmailHandler = new ToLowerEmailHandler();
-    private static final RemoveCharacterFromEmailHandler removeCharacterFromEmailHandler = new RemoveCharacterFromEmailHandler();
-    private static final TrimFromEmailHandler trimFromEmailHandler = new TrimFromEmailHandler();
 
     private static final Map<String, EmailProviderType> nameToEmailProviderType = new HashMap<>() {{
         put("gmail", EmailProviderType.GMAIL);
@@ -31,19 +33,11 @@ public final class EmailUtils {
         put("tutanota", EmailProviderType.TUTANOTA);
     }};
 
-    private static final Map<EmailProviderType, List<EmailHandler>>  emailProviderTypeToHandlerListMap = new HashMap<>() {{
-       put(EmailProviderType.GMAIL, new ArrayList<>(Arrays.asList(toLowerEmailHandler, removeCharacterFromEmailHandler, trimFromEmailHandler)));
-       put(EmailProviderType.OUTLOOK, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
-       put(EmailProviderType.AOL, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
-       put(EmailProviderType.YAHOO, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
-       put(EmailProviderType.ICLOUD, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
-       put(EmailProviderType.ZOHO, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
-       put(EmailProviderType.YANDEX, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
-       put(EmailProviderType.TUTANOTA, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
-       put(EmailProviderType.OTHER, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
-    }};
-
-
+    /**
+     * To fetch {@link  EmailProviderType} enum based on emailProvider string.
+     * @param emailProvider - input string value.
+     * @return - {@link  EmailProviderType} enum.
+     */
     public static EmailProviderType getEmailProviderType(final String emailProvider) {
         EmailProviderType type = nameToEmailProviderType.get(emailProvider.toLowerCase());
 
@@ -54,16 +48,11 @@ public final class EmailUtils {
         return  type;
     }
 
-    public static List<EmailHandler> getEmailHandlerForEmailProviderType(final EmailProviderType emailProviderType) {
-        List<EmailHandler> emailHandlers = emailProviderTypeToHandlerListMap.get(emailProviderType);
-
-        if (emailHandlers == null || emailHandlers.isEmpty()) {
-            emailHandlers = emailProviderTypeToHandlerListMap.get(EmailProviderType.OTHER);
-        }
-
-        return emailHandlers;
-    }
-
+    /**
+     * Generic function to test non-null and not-empty string
+     * @param str - input string.
+     * @return - true/false based on non-null and not-empty string.
+     */
     public static boolean isNullOrEmpty(String str) {
         return str == null || str.equals("");
     }
