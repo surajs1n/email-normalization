@@ -2,19 +2,17 @@ package normalize;
 
 import exception.EmailNormalizationException;
 import exception.EmailNormalizationExceptionType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EmailNormalizerTest {
+class CustomEmailNormalizerTest {
 
     private EmailNormalizer emailNormalizer;
 
     @BeforeEach
     void setUp() {
-        this.emailNormalizer = EmailNormalizer.getInstance();
+        this.emailNormalizer = EmailNormalizer.getInstance("src/main/resources/config/CustomEmailConfiguration.yaml");
     }
 
     @AfterEach
@@ -67,14 +65,14 @@ class EmailNormalizerTest {
     ///////// TEST GMAIL IDs ////////
     @Test
     public void GIVEN_gmailIdWithDot_WHEN_Normalizing_THEN_NormalizeIt() throws EmailNormalizationException {
-        String normalizedEmail = emailNormalizer.normalize("Suraj.Sn@gmail.com");
+        String normalizedEmail = emailNormalizer.normalize("Su-raj.S-n-@gmail.com");
         assertEquals( "surajsn@gmail.com", normalizedEmail);
     }
 
     @Test
     public void GIVEN_gmailIdWithDotAndPlus_WHEN_Normalizing_THEN_NormalizeIt() throws EmailNormalizationException {
         String normalizedEmail = emailNormalizer.normalize("Suraj.Sn+1232+3@gmail.com");
-        assertEquals( "surajsn@gmail.com", normalizedEmail);
+        assertEquals( "surajsn+1232+3@gmail.com", normalizedEmail);
     }
 
     @Test
@@ -99,7 +97,7 @@ class EmailNormalizerTest {
     @Test
     public void GIVEN_googleMailIdWithDotAndPlus_WHEN_Normalizing_THEN_NormalizeIt() throws EmailNormalizationException {
         String normalizedEmail = emailNormalizer.normalize("Suraj.Sn+1232+3@googlemail.com");
-        assertEquals( "surajsn@googlemail.com", normalizedEmail);
+        assertEquals( "surajsn+1232+3@googlemail.com", normalizedEmail);
     }
 
     @Test
@@ -113,6 +111,12 @@ class EmailNormalizerTest {
     public void GIVEN_outlookId_WHEN_Normalizing_THEN_NormalizeIt() throws EmailNormalizationException {
         String normalizedEmail = emailNormalizer.normalize("SurajSn123@OUTLOOK.com");
         assertEquals( "surajsn123@outlook.com", normalizedEmail);
+    }
+
+    @Test
+    public void GIVEN_OutlookMailIdWithDotAndPlus_WHEN_Normalizing_THEN_NormalizeIt() throws EmailNormalizationException {
+        String normalizedEmail = emailNormalizer.normalize("Suraj.Sn+1232+3@outlook.com");
+        assertEquals( "suraj.sn@outlook.com", normalizedEmail);
     }
 
     ///// TEST AOL IDs  ///////

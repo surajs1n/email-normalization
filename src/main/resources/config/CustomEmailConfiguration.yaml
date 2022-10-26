@@ -1,0 +1,15 @@
+# The file is created to test the correctness of custom Email Configurations
+
+# Here I am modifying Outlook, email handlerType, and would remove all the other email-provider list.
+# In the absence of other email-provider, the library would pick the older configs of registered email-providers
+# from this file (email-normalization/src/main/resources/config/EmailConfigurations.yaml).
+
+emailProviderTypeListMap:
+  GMAIL:
+    - handlerType: TO_LOWERCASE
+    - handlerType: REMOVE_CHARACTERS
+      patternOfCharacterToBeRemoved: "[.-]"
+  OUTLOOK:
+    - handlerType: TO_LOWERCASE
+    - handlerType: TRIM_SUFFIX
+      trimRegexExpression: "\\+"

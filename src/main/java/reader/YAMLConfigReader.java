@@ -10,16 +10,22 @@ import java.io.IOException;
 
 /**
  * Central Config Reader to initialize EmailConfiguration class from corresponding YAML file.
- * It by default read from src/main/resources/config/EmailConfigurations.yaml file and also has extensibility to
+ * It by default reads from src/main/resources/config/EmailConfigurations.yaml file and also has extensibility to
  * read from user inserted file path.
  */
 public class YAMLConfigReader {
 
-    private final ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());;
+    private final ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
     private final String yamlFilePath;
+
+    private final boolean isCustomConfigUsed;
     private static EmailConfiguration EMAIL_CONFIGURATION = null;
+
+    private static EmailConfiguration CUSTOM_EMAIL_CONFIGURATION = null;
     private static YAMLConfigReader YAML_CONFIG_READER_INSTANCE  = null;
     private static YAMLConfigReader YAML_CONFIG_READER_CUSTOM_INSTANCE = null;
+
+    private final String DEFAULT_PATH = "src/main/resources/config/EmailConfigurations.yaml";
 
     /**
      * Get the defaultInstance of {@link YAMLConfigReader} based on default yamlFilePath.
@@ -47,12 +53,14 @@ public class YAMLConfigReader {
     }
 
     private YAMLConfigReader() {
-        this.yamlFilePath = "src/main/resources/config/EmailConfigurations.yaml";
+        this.yamlFilePath = this.DEFAULT_PATH;
+        this.isCustomConfigUsed = false;
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     private YAMLConfigReader(String yamlFilePath) {
         this.yamlFilePath = yamlFilePath;
+        this.isCustomConfigUsed = true;
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
@@ -61,17 +69,32 @@ public class YAMLConfigReader {
      * @return - {@link EmailConfiguration} object.
      */
     public EmailConfiguration getEmailConfiguration() {
-        if (EMAIL_CONFIGURATION != null) {
+        if (this.isCustomConfigUsed) {
+            if (CUSTOM_EMAIL_CONFIGURATION != null) {
+                return CUSTOM_EMAIL_CONFIGURATION;
+            }
+
+            CUSTOM_EMAIL_CONFIGURATION = readFromFile(DEFAULT_PATH);
+            EmailConfiguration emailConfiguration = readFromFile(yamlFilePath);
+            CUSTOM_EMAIL_CONFIGURATION.getEmailProviderTypeListMap().putAll(emailConfiguration.getEmailProviderTypeListMap());
+
+            return CUSTOM_EMAIL_CONFIGURATION;
+        } else {
+            if (EMAIL_CONFIGURATION != null) {
+                return EMAIL_CONFIGURATION;
+            }
+
+            EMAIL_CONFIGURATION = readFromFile(DEFAULT_PATH);
             return EMAIL_CONFIGURATION;
         }
+    }
 
+    private EmailConfiguration readFromFile(final String yamlFilePath) {
         try {
-            EMAIL_CONFIGURATION = objectMapper.readValue(new File(yamlFilePath), EmailConfiguration.class);
+            return objectMapper.readValue(new File(yamlFilePath), EmailConfiguration.class);
         } catch (IOException e) {
             System.err.println("Error de-serializing YAML info back in");
             throw new RuntimeException(e);
         }
-
-        return EMAIL_CONFIGURATION;
     }
 }

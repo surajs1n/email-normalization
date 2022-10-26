@@ -9,7 +9,7 @@ import model.Email;
  * E.g:-
  * Given :- trimRegexExpression = "\\+"
  * Input Email  :- surajS.1N+11@gmail.com
- * Output Email :- surajS1N@gmail.com
+ * Output Email :- surajS.1N@gmail.com
  */
 
 @Setter
