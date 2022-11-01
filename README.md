@@ -1,7 +1,7 @@
 # Email Normalization
 
 ----
-This is a light-weighted java library `(V1.0 version)` meant to validate and normalize a given morphed EmailId. Let us consider some below examples to understand it.
+This is a light-weighted java library `(V1.` version)` meant to validate and normalize a given morphed EmailId. Let us consider some below examples to understand it.
 
 ```java
 EmailNormalizer.normalize("Suraj.Sn@gmail.com");      will return => surajsn@gmail.com
@@ -11,22 +11,26 @@ EmailNormalizer.normalize("SURAJSN@gmail.com") ;      will return => surajsn@gma
 ```
 
 ### Table of Content
-1. Usage
+1. How to use it?
 2. Motivation
    1. In Scope
    2. Out of Scope
 3. Class-Level Diagram
-4. How to contribute?
+4. Write your own custom config file
+5. How to contribute?
 
-### Usage
+### How to use it?
 
-```xml
+1. Add the following dependency in your pom file
+    ```xml
     <dependency>
         <groupId>io.github.surajs1n</groupId>
         <artifactId>email-normalization</artifactId>
         <version>1.0.0</version>
     </dependency>
-```
+    ```
+2. Use `EmailNormalizer emailNormalizer = EmailNormalizer.getInstance()`, this would create an EmailNormalizer class with preinstalled config. Whereas, `1.1.0` onwards library version provides a flexibility to modify the handlers ordered-list at email-provider level. (Please check out the "Write your own custom config file" section for more details.)  
+3. Pass the emailId String that you want to normalize: `emailNormalizer.normalize("Suraj.Sn12.3.23@gmail.com")`. It would return a `String` response.
 
 ### Motivation
 
