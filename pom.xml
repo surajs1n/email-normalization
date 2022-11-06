@@ -9,7 +9,7 @@
     <version>1.1.0-SNAPSHOT</version>
 
     <name>Email Normalization</name>
-    <description>This is a light-weighted java library (V1.0 version) meant to validate and normalize a given morphed EmailId.</description>
+    <description>This is a light-weighted java library (V1.1 version) meant to validate and normalize a given morphed EmailId.</description>
     <url>https://github.com/surajs1n/email-normalization</url>
 
     <licenses>
