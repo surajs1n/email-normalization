@@ -4,28 +4,23 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import config.EmailConfiguration;
+import util.EmailUtils;
 
 import java.io.File;
 import java.io.IOException;
 
 /**
  * Central Config Reader to initialize EmailConfiguration class from corresponding YAML file.
- * It by default reads from src/main/resources/config/EmailConfigurations.yaml file and also has extensibility to
- * read from user inserted file path.
  */
 public class YAMLConfigReader {
 
     private final ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
     private final String yamlFilePath;
-
     private final boolean isCustomConfigUsed;
     private static EmailConfiguration EMAIL_CONFIGURATION = null;
-
     private static EmailConfiguration CUSTOM_EMAIL_CONFIGURATION = null;
     private static YAMLConfigReader YAML_CONFIG_READER_INSTANCE  = null;
     private static YAMLConfigReader YAML_CONFIG_READER_CUSTOM_INSTANCE = null;
-
-    private final String DEFAULT_PATH = "src/main/resources/config/EmailConfigurations.yaml";
 
     /**
      * Get the defaultInstance of {@link YAMLConfigReader} based on default yamlFilePath.
@@ -53,7 +48,7 @@ public class YAMLConfigReader {
     }
 
     private YAMLConfigReader() {
-        this.yamlFilePath = this.DEFAULT_PATH;
+        this.yamlFilePath = "";
         this.isCustomConfigUsed = false;
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
@@ -74,7 +69,7 @@ public class YAMLConfigReader {
                 return CUSTOM_EMAIL_CONFIGURATION;
             }
 
-            CUSTOM_EMAIL_CONFIGURATION = readFromFile(DEFAULT_PATH);
+            CUSTOM_EMAIL_CONFIGURATION = EmailUtils.readDefaultConfig();
             EmailConfiguration emailConfiguration = readFromFile(yamlFilePath);
             CUSTOM_EMAIL_CONFIGURATION.getEmailProviderTypeListMap().putAll(emailConfiguration.getEmailProviderTypeListMap());
 
@@ -84,7 +79,7 @@ public class YAMLConfigReader {
                 return EMAIL_CONFIGURATION;
             }
 
-            EMAIL_CONFIGURATION = readFromFile(DEFAULT_PATH);
+            EMAIL_CONFIGURATION = EmailUtils.readDefaultConfig();
             return EMAIL_CONFIGURATION;
         }
     }

@@ -1,5 +1,6 @@
 package util;
 
+import config.EmailConfiguration;
 import factory.handler.EmailHandler;
 import factory.handler.RemoveCharacterFromEmailHandler;
 import factory.handler.ToLowerEmailHandler;
@@ -19,6 +20,21 @@ public final class EmailUtils {
     private EmailUtils() {
 
     }
+
+    private static final ToLowerEmailHandler toLowerEmailHandler = new ToLowerEmailHandler();
+    private static final RemoveCharacterFromEmailHandler removeCharacterFromEmailHandler = new RemoveCharacterFromEmailHandler("[.]");
+    private static final TrimFromEmailHandler trimFromEmailHandler = new TrimFromEmailHandler("\\+");
+    private static final Map<EmailProviderType, List<EmailHandler>>  emailProviderTypeToHandlerListMap = new HashMap<>() {{
+        put(EmailProviderType.GMAIL, new ArrayList<>(Arrays.asList(toLowerEmailHandler, removeCharacterFromEmailHandler, trimFromEmailHandler)));
+        put(EmailProviderType.OUTLOOK, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
+        put(EmailProviderType.AOL, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
+        put(EmailProviderType.YAHOO, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
+        put(EmailProviderType.ICLOUD, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
+        put(EmailProviderType.ZOHO, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
+        put(EmailProviderType.YANDEX, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
+        put(EmailProviderType.TUTANOTA, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
+        put(EmailProviderType.OTHER, new ArrayList<>(Arrays.asList(toLowerEmailHandler)));
+    }};
 
     private static final Map<String, EmailProviderType> nameToEmailProviderType = new HashMap<>() {{
         put("gmail", EmailProviderType.GMAIL);
@@ -46,6 +62,17 @@ public final class EmailUtils {
         }
 
         return  type;
+    }
+
+    /**
+     * Return the default config.
+     * @return {@link EmailConfiguration} default object.
+     */
+    public static EmailConfiguration readDefaultConfig() {
+        EmailConfiguration emailConfiguration = new EmailConfiguration();
+        emailConfiguration.setEmailProviderTypeListMap(new HashMap<>(emailProviderTypeToHandlerListMap));
+
+        return emailConfiguration;
     }
 
     /**
